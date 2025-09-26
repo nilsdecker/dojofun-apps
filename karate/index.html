@@ -1,14 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Karate Games</title>
+  <style>
+    :root{
+      --bg:#0b0b0c; --card:#15161a; --accent:#06d6a0; --text:#f5f7fa; --muted:#a9b0bb;
+      --radius:18px; --gap:1rem; --tile-w:min(280px, 44vw); --tile-h:180px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color:var(--text); background:radial-gradient(1200px 1200px at 120% -10%, #1b1d22, #0b0b0c 60%);
+      display:flex; min-height:100vh; align-items:center; justify-content:center; padding:32px;
+    }
+    main{width:100%; max-width:1200px}
+    header{margin-bottom:1.25rem; text-align:center}
+    header h1{margin:0 0 .25rem 0; font-size:clamp(1.4rem, 2.5vw, 2rem)}
+    header p{margin:0; color:var(--muted); font-size:.95rem}
+    .grid{
+      display:grid; gap:var(--gap);
+      grid-template-columns:repeat(auto-fit, minmax(var(--tile-w), 1fr));
+    }
+
+    .tile{ perspective:1000px; text-decoration:none; color:inherit; border-radius:var(--radius); display:block; height:var(--tile-h); }
+    .tile-inner{ position:relative; width:100%; height:100%; border-radius:inherit; transform-style:preserve-3d; transition:transform .6s; box-shadow:0 12px 30px rgba(0,0,0,.35); }
+    .tile:hover .tile-inner, .tile:focus .tile-inner{ transform:rotateY(180deg) }
+    .face{ position:absolute; inset:0; border-radius:inherit; display:flex; align-items:center; justify-content:center; padding:20px; background:linear-gradient(145deg, #1a1c21, #0f1013); border:1px solid rgba(255,255,255,.06); backface-visibility:hidden; }
+    .face h2{margin:0; font-size:1.2rem}
+    .badge{display:inline-block; margin-top:.4rem; font-size:.8rem; color:#0b0b0c; background:var(--accent); padding:.25rem .5rem; border-radius:999px}
+    .back{ transform:rotateY(180deg); background:radial-gradient(220% 160% at 90% 10%, #21242b, #121317); }
+    .back p{margin:.2rem 0 .6rem 0; color:var(--muted); text-align:center}
+    .back .cta{ display:inline-block; padding:.55rem .85rem; border-radius:.7rem; background:var(--accent); color:#0b0b0c; font-weight:600; border:0; pointer-events:none; }
+
+    @media (prefers-reduced-motion: reduce){ .tile-inner{transition:none} .tile:hover .tile-inner, .tile:focus .tile-inner{transform:none} }
+    .tile:focus{outline:none}
+    .tile:focus-visible .tile-inner{box-shadow:0 0 0 3px #fff4, 0 12px 30px rgba(0,0,0,.35)}
+    nav{margin-bottom:1rem; text-align:center}
+    nav a{color:var(--muted); text-decoration:none}
+    nav a:hover{text-decoration:underline}
+  </style>
 </head>
 <body>
-  <h1>Karate Hub</h1>
-  <ul>
-    <li><a href="./9th-kyu/">9th Kyu Quiz</a></li>
-    <li><a href="./general-quiz/">General Quiz</a></li>
-  </ul>
+  <main>
+    <nav><a href="../">&larr; Back to Apps Hub</a></nav>
+    <header>
+      <h1>Karate Hub</h1>
+      <p>Choose a game to begin.</p>
+    </header>
+
+    <section class="grid" aria-label="Karate games">
+      <!-- 9th Kyu Quiz -->
+      <a class="tile" href="./9th-kyu/">
+        <div class="tile-inner">
+          <div class="face front">
+            <div>
+              <h2>9th&nbsp;Kyu Quiz</h2>
+              <span class="badge">Beginner</span>
+            </div>
+          </div>
+          <div class="face back">
+            <div>
+              <p>Basics: rei, stances, punches, blocks.</p>
+              <span class="cta">Start Quiz</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- General Quiz -->
+      <a class="tile" href="./general-quiz/">
+        <div class="tile-inner">
+          <div class="face front">
+            <div>
+              <h2>General Quiz</h2>
+              <span class="badge">Mixed</span>
+            </div>
+          </div>
+          <div class="face back">
+            <div>
+              <p>Random karate terms and techniques.</p>
+              <span class="cta">Start Quiz</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </section>
+  </main>
 </body>
 </html>
