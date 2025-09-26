@@ -9,6 +9,7 @@
       /* Brand palette */
       --blue:#57aac8; --dark:#1C1C1C; --orange:#ff8317; --cream:#fff8ee;
       --green:#70b548; --grayL:#EBEBEB; --grayM:#666666; --white:#FFFFFF;
+
       /* Page theme */
       --bg1:var(--cream);
       --bg2:var(--grayL);
@@ -16,8 +17,9 @@
       --accent:var(--green);
       --text:var(--dark);
       --muted:var(--grayM);
+
       /* Layout */
-      --radius:18px; --gap:1rem; --tile-w:min(280px, 44vw); --tile-h:200px;
+      --radius:18px; --gap:1rem; --tile-w:min(280px, 1fr); --tile-h:200px;
     }
     *{box-sizing:border-box}
     body{
@@ -26,14 +28,22 @@
       background:linear-gradient(135deg,var(--bg1),var(--bg2));
       display:flex; min-height:100vh; align-items:center; justify-content:center; padding:32px;
     }
-    main{width:100%; max-width:1200px}
+    main{width:100%; max-width:1100px}
     nav{margin-bottom:1rem; text-align:center}
     nav a{color:var(--muted); text-decoration:none}
     nav a:hover{text-decoration:underline}
     header{margin-bottom:1.25rem; text-align:center}
     header h1{margin:0 0 .25rem 0; font-size:clamp(1.6rem, 2.5vw, 2.2rem)}
     header p{margin:0; color:var(--muted)}
-    .grid{display:grid; gap:var(--gap); grid-template-columns:repeat(auto-fit, minmax(var(--tile-w), 1fr));}
+
+    /* Force 2×2 grid (2 columns on >=700px) */
+    .grid{
+      display:grid; gap:var(--gap);
+      grid-template-columns:1fr;
+    }
+    @media (min-width:700px){
+      .grid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    }
 
     /* Flip tiles */
     .tile{ perspective:1000px; text-decoration:none; color:inherit; border-radius:var(--radius); display:block; height:var(--tile-h); }
@@ -50,14 +60,15 @@
     .tile:focus{outline:none}
     .tile:focus-visible .tile-inner{box-shadow:0 0 0 3px #0002, 0 8px 18px rgba(0,0,0,.15)}
 
-    /* Special styling for 9th Kyu tile */
-    .tile.belt-9th .face.front,
-    .tile.belt-9th .face.back {
-      border:6px solid #fff;              /* white outer border */
-      box-shadow:0 0 0 10px #f7d633 inset; /* inner yellow stripe */
+    /* Belt borders */
+    .belt-9th .face{            /* white + yellow stripe */
+      border:6px solid #fff; box-shadow:0 0 0 10px #f7d633 inset;
     }
-    .tile.belt-9th img {
-      width:70px; height:auto; margin-bottom:.4rem;
+    .belt-7th .face{            /* solid orange belt */
+      border:6px solid #ff8317; box-shadow:0 0 0 10px #ffe0c6 inset;
+    }
+    .belt-6th .face{            /* solid green belt */
+      border:6px solid #70b548; box-shadow:0 0 0 10px #def0d3 inset;
     }
   </style>
 </head>
@@ -70,27 +81,61 @@
     </header>
 
     <section class="grid" aria-label="Karate games">
-      <!-- 9th Kyu Quiz with belt styling -->
+      <!-- 9th Kyu -->
       <a class="tile belt-9th" href="./9th-kyu/">
         <div class="tile-inner">
           <div class="face front">
             <div>
-              <!-- Character image (put your PNG/SVG here) -->
-              <img src="./images/white-yellow-belt.png" alt="White-yellow belt character" style="width:70px; height:auto; margin-bottom:.4rem;">
               <h2>9th&nbsp;Kyu Quiz</h2>
               <span class="badge">Beginner</span>
             </div>
           </div>
           <div class="face back">
             <div>
-              <p>Basics: rei, stances, punches, blocks.</p>
+              <p>White belt + yellow stripe.</p>
               <span class="cta">Start Quiz</span>
             </div>
           </div>
         </div>
       </a>
 
-      <!-- General Quiz -->
+      <!-- 7th Kyu -->
+      <a class="tile belt-7th" href="./7th-kyu/">
+        <div class="tile-inner">
+          <div class="face front">
+            <div>
+              <h2>7th&nbsp;Kyu Quiz</h2>
+              <span class="badge">Orange Belt</span>
+            </div>
+          </div>
+          <div class="face back">
+            <div>
+              <p>Orange belt fundamentals.</p>
+              <span class="cta">Start Quiz</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 6th Kyu -->
+      <a class="tile belt-6th" href="./6th-kyu/">
+        <div class="tile-inner">
+          <div class="face front">
+            <div>
+              <h2>6th&nbsp;Kyu Quiz</h2>
+              <span class="badge">Green Belt</span>
+            </div>
+          </div>
+          <div class="face back">
+            <div>
+              <p>Green belt techniques.</p>
+              <span class="cta">Start Quiz</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- General Quiz (keeps the 2×2 layout) -->
       <a class="tile" href="./general-quiz/">
         <div class="tile-inner">
           <div class="face front">
