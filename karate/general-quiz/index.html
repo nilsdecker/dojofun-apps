@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<!-- saved from url=(0126)file:///Users/nils/Library/CloudStorage/GoogleDrive-decker.nils@gmail.com/My%20Drive/DojoFun.com/Apps/shotokan-quiz/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shotokan Karate Terms Quiz — Kids Edition</title>
+  <style>
+    :root {
+      --bg: #fff8ee; --card: #ffffff; --text: #243b53; --muted: #6b7280;
+      --accent: #ff7b39; --accent-2: #00bcd4; --good: #16a34a; --bad: #dc2626;
+      --belt-white:#ffffff; --belt-yellow:#ffe44d; --belt-orange:#ffa24d; --belt-green:#52d17f;
+      --belt-blue:#6aa9ff; --belt-purple:#a78bfa; --belt-brown:#8b5a2b; --belt-red:#ff4d4d; --belt-black:#111827;
+    }
+    * { box-sizing: border-box; }
+    body{
+      margin:0; padding:24px; background:var(--bg); color:var(--text);
+      font-family: ui-rounded,"SF Pro Rounded",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      line-height:1.45; display:flex; justify-content:center;
+      background-image: radial-gradient(20px 20px at 20px 20px, rgba(255,123,57,0.09), transparent 40%),
+                        radial-gradient(18px 18px at 180px 160px, rgba(0,188,212,0.08), transparent 40%);
+    }
+    .container{ width:100%; max-width:900px; }
+    .appheader{ display:flex; gap:12px; align-items:center; margin-bottom:12px; }
+    .logo{ width:56px; height:56px; border-radius:14px; display:grid; place-items:center;
+           background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:white; font-weight:900; font-size:22px;
+           box-shadow:0 8px 24px rgba(0,0,0,0.12); }
+    h1{ margin:0; font-size:28px; }
+    .subtitle{ margin:2px 0 0; color:var(--muted); font-size:14px; }
+    .panel{ background:var(--card); border-radius:18px; padding:18px; box-shadow:0 14px 32px rgba(0,0,0,0.08); }
+    .row{ display:flex; gap:12px; flex-wrap:wrap; }
+    .field{ display:grid; gap:6px; }
+    .field label{ font-size:12px; color:var(--muted); }
+    .field input{ padding:10px 12px; border-radius:12px; border:1px solid #e5e7eb; font-size:16px; }
+    .controls{ display:flex; gap:16px; flex-wrap:wrap; }
+    .controls label{ display:inline-flex; align-items:center; gap:8px; font-size:14px; color:var(--muted); }
+
+    .quizcard{ margin-top:16px; display:grid; grid-template-columns:1.1fr 0.9fr; gap:16px; }
+    @media (max-width: 820px){ .quizcard{ grid-template-columns:1fr; } }
+
+    .card{ background:var(--card); border-radius:18px; padding:18px; box-shadow:0 12px 28px rgba(0,0,0,0.08); }
+    #question{ font-size:22px; margin:4px 0 12px; }
+    #answer{ width:100%; font-size:20px; padding:12px 14px; border-radius:12px; border:1px solid #e5e7eb; outline:none; }
+    #answer:focus{ border-color:var(--accent); box-shadow:0 0 0 4px rgba(255,123,57,0.18); }
+    #answer.correct{ border-color:var(--good); }  #answer.wrong{ border-color:var(--bad); }
+
+    .choices{ display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; margin:8px 0 8px; }
+    .choice{ border:1px solid #e5e7eb; border-radius:12px; padding:12px; font-size:18px; background:white; cursor:pointer; }
+    .choice:hover{ border-color:var(--accent); transform:translateY(-1px); }
+
+    .buttons{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .btn{ padding:10px 14px; border-radius:12px; border:1px solid #e5e7eb; background:white; cursor:pointer; font-size:16px; }
+    .btn.primary{ background:var(--accent); color:white; border-color:var(--accent); }
+    .btn.ghost{ background:transparent; }
+    #feedback{ min-height:24px; margin-top:10px; font-weight:700; }
+
+    .scorebar{ margin-top:14px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; font-size:14px; color:var(--muted); }
+    .scorebar strong{ color:var(--text); }
+    .hidden{ display:none !important; }
+
+    .beltbar{ display:grid; gap:10px; }
+    .belt-row{ display:flex; align-items:center; gap:12px; }
+    .beltprogress{ height:10px; background:#f1f5f9; border-radius:999px; overflow:hidden; }
+    .beltprogress>div{ height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); width:0%; transition:width 0.35s ease; }
+    .chibi{ display:grid; place-items:center; text-align:center; }
+    .chibi svg{ width:140px; height:140px; }
+    .speech{ font-size:16px; font-weight:700; margin-top:6px; }
+
+    details{ margin-top:16px; }
+    details>summary{ cursor:pointer; user-select:none; }
+    code.inline{ background:#ffeede; padding:2px 6px; border-radius:6px; }
+
+    .termImageWrap{ display:grid; place-items:center; background:#fff; border:1px dashed #ffd3bd; border-radius:16px; padding:10px; }
+    .termImage{ max-width:100%; max-height:220px; border-radius:12px; display:block; }
+    .imgNote{ font-size:12px; color:var(--muted); margin-top:6px; text-align:center; }
+
+    .tablelike{ background:var(--card); border-radius:14px; padding:12px; }
+    .highscores{ list-style:none; padding-left:0; margin:8px 0 0; }
+    .highscores li{ padding:6px 8px; border-bottom:1px dashed #eee; display:flex; justify-content:space-between; }
+
+    /* NEW: highscores scrollable after ~10 rows */
+    .highscores{ max-height: 280px; overflow-y: auto; }
+    .shareRow{ margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; }
+    .shareRow input{ flex:1 1 260px; padding:10px 12px; border-radius:12px; border:1px solid #e5e7eb; }
+    /* Confetti canvas */
+    #confetti{ position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:9999; }
+  </style>
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+
+  <div class="container">
+    <div class="appheader">
+      <div class="logo">🥋</div>
+      <div>
+        <h1>Shotokan Karate Terms Quiz</h1>
+        <p class="subtitle">Kid-friendly practice for Japanese terms — with belts, cheers, and pictures!</p>
+      </div>
+    </div>
+
+    <div class="panel" id="profilePanel">
+      <div class="row">
+        <div class="field">
+          <label for="nameInput">Player name</label>
+          <input id="nameInput" placeholder="e.g., Lily">
+        </div>
+        <div class="field">
+          <label for="emailInput">Email (optional)</label>
+          <input id="emailInput" placeholder="e.g., parent@email.com">
+        </div>
+        <div class="field" style="align-self:end;">
+          <button id="saveProfileBtn" class="btn">Save profile</button>
+        </div>
+      </div>
+      <div class="controls" style="margin-top:10px;">
+        <label><input type="checkbox" id="multipleChoiceToggle" checked=""> Multiple choice</label>
+            <label><input type="checkbox" id="reverseToggle" checked=""> Reverse: Japanese → English</label>
+      </div>
+    </div>
+
+    <div class="quizcard">
+      <div class="card">
+        <div id="question">What is "Side Kick" in Japanese?</div>
+        <div id="choices" class="choices"><button class="choice">Yame</button><button class="choice">Uke</button><button class="choice">Tsuki</button><button class="choice">Yoko Geri</button></div>
+        <input id="answer" type="text" placeholder="Type answer here (e.g., Tsuki)" autocomplete="off" style="display: none;">
+        <div class="buttons">
+          <button id="checkBtn" class="btn primary" style="display: none;">Check</button>
+          <button id="hintBtn" class="btn" style="display: none;">Hint</button>
+          <button id="skipBtn" class="btn">Skip</button>
+          <button id="nextBtn" class="btn hidden">Next</button>
+          <button id="saveScoreBtn" class="btn ghost" title="Save current high score">Save High Score</button>
+        </div>
+        <div id="feedback"></div>
+        <div class="scorebar">
+          <div>Correct: <strong id="correct">10</strong> / <strong id="asked">11</strong></div>
+          <div>Streak: <strong id="streak">0</strong> · Best: <strong id="best">10</strong></div>
+          <button id="resetBtn" class="btn" title="Reset your score only">Reset Score</button>
+        </div>
+
+        <!-- NEW: share results -->
+        <div class="shareRow">
+          <input id="shareText" readonly="">
+          <button id="copyShare" class="btn">Copy</button>
+          <button id="nativeShare" class="btn">Share</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="termImageWrap">
+          <img id="termImage" class="termImage" alt="Term illustration" style="display: none;">
+          <div class="imgNote">Add your own pictures by setting <code class="inline">TERM_IMAGES</code> in the script.</div>
+        </div>
+        <div class="beltbar" style="margin-top:12px;">
+          <div class="belt-row">
+            <div class="beltprogress" style="flex:1"><div id="beltProgress" style="width: 0%;"></div></div>
+            <div class="beltlabel" id="beltLabel">White Belt</div>
+          </div>
+          <div class="chibi">
+            <!-- Cute karate character as inline SVG -->
+            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="60" cy="60" r="56" fill="#fff5e9" stroke="#ffd0b0"></circle>
+              <circle cx="60" cy="45" r="20" fill="#ffe0c2" stroke="#e6b899"></circle>
+              <rect x="42" y="38" width="36" height="6" rx="3" fill="#ff7b39"></rect>
+              <circle cx="52" cy="45" r="3" fill="#333"></circle>
+              <circle cx="68" cy="45" r="3" fill="#333"></circle>
+              <path d="M50 53 q10 8 20 0" stroke="#c86b38" fill="none" stroke-width="3"></path>
+              <path d="M60 65 l-26 26 h52 z" fill="#ffffff" stroke="#d2d6dc"></path>
+              <rect id="beltRect" x="34" y="88" width="52" height="8" rx="3" fill="#ffffff"></rect>
+            </svg>
+            <div class="speech" id="chibiSpeech">Let's go! Kiai! 💥</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <div class="panel tablelike" style="margin-top:16px;">
+      <strong>High Scores</strong>
+      <ul id="highscores" class="highscores"></ul>
+      <p style="color:#94a3b8;font-size:12px;margin:6px 0 0;">Emails are stored privately in your browser and never shown here.</p>
+    </div>
+  </div>
+
+  <script>
+    // ——— Terms by difficulty ———
+    const TERMS_EASY = [
+      { en:"Punch", ja:"Tsuki" }, { en:"Front Kick", ja:"Mae Geri" }, { en:"Roundhouse Kick", ja:"Mawashi Geri" },
+      { en:"Side Kick", ja:"Yoko Geri" }, { en:"Back Kick", ja:"Ushiro Geri" }, { en:"Bow", ja:"Rei" },
+      { en:"Begin / Start", ja:"Hajime" }, { en:"Stop", ja:"Yame" }, { en:"Block", ja:"Uke" }, { en:"Ready Position", ja:"Yoi" }
+    ];
+    const TERMS_MEDIUM = [
+      { en:"Downward Block", ja:"Gedan Barai" }, { en:"Inside Block", ja:"Uchi Uke" }, { en:"Outside Block", ja:"Soto Uke" },
+      { en:"Upper Block", ja:"Age Uke" }, { en:"Lunge Punch", ja:"Oi Zuki" }, { en:"Reverse Punch", ja:"Gyaku Zuki" },
+      { en:"Knife-hand Strike", ja:"Shuto Uchi" }, { en:"Front Stance", ja:"Zenkutsu Dachi" }, { en:"Back Stance", ja:"Kokutsu Dachi" },
+      { en:"Horse Stance", ja:"Kiba Dachi" }
+    ];
+    const TERMS_HARD = [
+      { en:"Hook Punch", ja:"Kagi Zuki" }, { en:"Back Fist", ja:"Uraken Uchi" }, { en:"Spear Hand", ja:"Nukite" },
+      { en:"Hammer Fist", ja:"Tetsui Uchi" }, { en:"Rising Kick", ja:"Mae Keage" }, { en:"Axe Kick", ja:"Kakato Geri" },
+      { en:"Spinning Back Kick", ja:"Ushiro Geri (Mawashi)" }, { en:"Cat Stance", ja:"Neko Ashi Dachi" },
+      { en:"Cross Stance", ja:"Kosa Dachi" }, { en:"Hourglass Stance", ja:"Sanchin Dachi" }
+    ];
+    const TERMS_SUPER = [
+      { en:"Heian Shodan", ja:"Heian Shodan" }, { en:"Heian Nidan", ja:"Heian Nidan" }, { en:"Heian Sandan", ja:"Heian Sandan" },
+      { en:"Heian Yondan", ja:"Heian Yondan" }, { en:"Heian Godan", ja:"Heian Godan" }, { en:"Bassai Dai", ja:"Bassai Dai" },
+      { en:"Kanku Dai", ja:"Kanku Dai" }, { en:"Jion", ja:"Jion" }, { en:"Tekki Shodan", ja:"Tekki Shodan" }, { en:"Enpi", ja:"Enpi" }
+    ];
+    const TERM_IMAGES = { /* e.g. "Front Kick":"https://.../mae-geri.jpg" */ };
+
+    // Belts now map to STREAK (score) so a wrong answer resets belt progress
+    const BELTS = [
+      { name:"White Belt",  color:getCss('--belt-white'),  need:0,  cheer:"Let's go! Kiai! 💥" },
+      { name:"White-Yellow Belt", color:getCss('--belt-yellow'), need:1, cheer:"Great start! 🥋" },
+      { name:"Yellow Belt", color:getCss('--belt-yellow'), need:2, cheer:"You're glowing like the sun! ☀️" },
+      { name:"Orange Belt", color:getCss('--belt-orange'), need:3, cheer:"Orange you awesome! 🍊" },
+      { name:"Green Belt",  color:getCss('--belt-green'),  need:5,  cheer:"Growing stronger! 🌱" },
+      { name:"Blue Belt",   color:getCss('--belt-blue'),   need:8,  cheer:"Kickin' like the sky! 🌌" },
+      { name:"Purple Belt", color:getCss('--belt-purple'), need:12, cheer:"Power rising! 🔮" },
+      { name:"Brown Belt",  color:getCss('--belt-brown'),  need:17, cheer:"Unstoppable focus! 🐻" },
+      { name:"Red Belt",    color:getCss('--belt-red'),    need:23, cheer:"Fire spirit! 🔥" },
+      { name:"Black Belt",  color:getCss('--belt-black'),  need:30, cheer:"Sensei level! 🖤" }
+    ];
+    function getCss(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+    // Helpers & state
+    const $ = (id) => document.getElementById(id);
+    function normalize(s){ return s.toLowerCase().replace(/[\s\-']/g,'').normalize('NFKD').replace(/[\u0300-\u036f]/g,''); }
+    function poolFor(streak){
+      if (streak < 10) return TERMS_EASY;
+      if (streak < 20) return TERMS_MEDIUM;
+      if (streak < 30) return TERMS_HARD;
+      return TERMS_SUPER;
+    }
+
+    let current=null, pool=[], multipleChoice=false, reverse=false;
+    let stats = JSON.parse(localStorage.getItem('karateStats') || '{"correct":0,"asked":0,"best":0,"streak":0}');
+    let profile = JSON.parse(localStorage.getItem('karateProfile') || '{"name":"","email":""}');
+    let highs = JSON.parse(localStorage.getItem('karateHighscores') || '[]'); // {name,email,score,date}
+
+    function saveStats(){ localStorage.setItem('karateStats', JSON.stringify(stats)); }
+    function saveProfile(){ localStorage.setItem('karateProfile', JSON.stringify(profile)); }
+    function saveHighs(){ localStorage.setItem('karateHighscores', JSON.stringify(highs)); }
+
+    // UI updates
+    function updateScore(){
+      $('correct').textContent = stats.correct;
+      $('asked').textContent = stats.asked;
+      $('streak').textContent = stats.streak;
+      $('best').textContent = stats.best;
+      updateBelt();
+      setShareText();
+    }
+    function updateBelt(){
+      const total = stats.streak; // <— use STREAK for belt progression
+      let currentBelt = BELTS[0];
+      for (const b of BELTS){ if (total >= b.need) currentBelt = b; }
+      $('beltLabel').textContent = currentBelt.name;
+      $('beltRect').setAttribute('fill', currentBelt.color);
+      $('chibiSpeech').textContent = `${profile.name ? profile.name+', ' : ''}${currentBelt.cheer}`;
+      // progress to next
+      const idx = BELTS.indexOf(currentBelt);
+      const next = BELTS[Math.min(idx+1, BELTS.length-1)];
+      const span = Math.max(1, next.need - currentBelt.need);
+      const progress = Math.min(1, (total - currentBelt.need)/span);
+      $('beltProgress').style.width = `${progress*100}%`;
+    }
+
+    // Highscores (hide email)
+    function renderHighs(){
+      const ul = $('highscores'); ul.innerHTML = '';
+      highs.sort((a,b)=>b.score-a.score);
+      highs.forEach((h,i)=>{
+        const li = document.createElement('li');
+        const name = h.name || 'Player';
+        li.innerHTML = `<span>#${i+1} ${name}</span><strong>${h.score} · ${beltFor(h.score).name}</strong>`;
+        ul.appendChild(li);
+      });
+    }
+    function beltFor(n){ let cur=BELTS[0]; for(const b of BELTS){ if(n>=b.need) cur=b; } return cur; }
+
+    // Questions
+    function pickQuestion(){
+      // choose pool based on current STREAK
+      const p = poolFor(stats.streak);
+      current = p[Math.floor(Math.random()*p.length)];
+      renderQuestion();
+    }
+    function renderQuestion(){
+      const qEl=$('question'), ansEl=$('answer'), choicesEl=$('choices'), feedback=$('feedback');
+      $('nextBtn').classList.add('hidden'); feedback.textContent=''; ansEl.value=''; ansEl.classList.remove('correct','wrong');
+      multipleChoice=$('multipleChoiceToggle').checked; reverse=$('reverseToggle').checked;
+      qEl.textContent = reverse ? `What is "${current.ja}" in English?` : `What is "${current.en}" in Japanese?`;
+      // image (optional)
+      const url = TERM_IMAGES[reverse ? current.ja : current.en];
+      if (url){ $('termImage').src=url; $('termImage').style.display='block'; } else { $('termImage').removeAttribute('src'); $('termImage').style.display='none'; }
+      // choices or input
+      choicesEl.innerHTML='';
+      if(multipleChoice){
+        ansEl.style.display='none'; $('checkBtn').style.display='none'; $('hintBtn').style.display='none';
+        const correctOpt = reverse? current.en : current.ja;
+        const opts = new Set([correctOpt]);
+        while(opts.size<4){ const r = (poolFor(stats.streak))[Math.floor(Math.random()*poolFor(stats.streak).length)]; opts.add(reverse? r.en : r.ja); }
+        Array.from(opts).sort(()=>Math.random()-0.5).forEach(opt=>{
+          const b=document.createElement('button'); b.className='choice'; b.textContent=opt; b.onclick=()=>checkAnswer(opt); choicesEl.appendChild(b);
+        });
+      }else{
+        ansEl.style.display=''; $('checkBtn').style.display=''; $('hintBtn').style.display=''; ansEl.focus();
+      }
+    }
+
+    // Confetti
+    function confettiBurst(){
+      const c=$('confetti'), ctx=c.getContext('2d'); c.width=innerWidth; c.height=innerHeight;
+      const pieces = Array.from({length:120},()=>({x:Math.random()*c.width,y:-20-Math.random()*40,r:3+Math.random()*4,
+        s:2+Math.random()*3, clr:`hsl(${Math.floor(Math.random()*360)},90%,60%)`, a:Math.random()*Math.PI}));
+      let t=0; const max=60;
+      (function anim(){
+        ctx.clearRect(0,0,c.width,c.height);
+        pieces.forEach(p=>{ p.y+=p.s; p.x+=Math.sin((t/10)+p.a); ctx.fillStyle=p.clr; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();});
+        t++; if(t<max) requestAnimationFrame(anim); else ctx.clearRect(0,0,c.width,c.height);
+      })();
+    }
+
+    // Answer flow
+    function checkAnswer(manual){
+      const input = manual ?? $('answer').value;
+      const correct = reverse? current.en : current.ja;
+      const isCorrect = normalize(input)===normalize(correct);
+      stats.asked++;
+      if(isCorrect){
+        stats.correct++;                    // total correct (for “Correct/Asked”)
+        stats.streak++;                     // streak grows
+        stats.best = Math.max(stats.best, stats.streak);
+        $('feedback').textContent = `✅ Correct${profile.name ? ', '+profile.name : ''}!`;
+        confettiBurst();
+        saveStats(); updateScore();
+        setTimeout(pickQuestion, 700);      // auto-advance
+        return;
+      }
+      // wrong → reset streak/score
+      stats.streak = 0;
+      $('feedback').textContent = `❌ Not quite. Correct answer: ${correct}`;
+      saveStats(); updateScore();
+      $('nextBtn').classList.remove('hidden');
+    }
+
+    function hint(){
+      const correct = reverse? current.en : current.ja;
+      const shown = $('answer').value; const n = shown.length + 1;
+      $('answer').value = correct.slice(0,n); $('answer').focus();
+    }
+    function resetStats(){ stats = { correct:0, asked:0, best:stats.best, streak:0 }; saveStats(); updateScore(); }
+
+    // Save high score (email kept private)
+    function saveHighscore(){
+      const entry = { name: profile.name||'Player', email: profile.email||'', score: stats.best||stats.streak, date: new Date().toISOString() };
+      highs.push(entry); saveHighs(); renderHighs(); alert('High score saved!');
+    }
+
+    // Share
+    function setShareText(){
+      const msg = `${profile.name || 'I'} answered ${stats.streak} in a row and reached ${beltFor(stats.streak).name}! Try it: ${location.href}`;
+      $('shareText').value = msg;
+    }
+    function copyShare(){ $('shareText').select(); document.execCommand('copy'); }
+    async function nativeShare(){ try{ if(navigator.share){ await navigator.share({ text:$('shareText').value }); } else { copyShare(); alert('Copied!'); } }catch{} }
+
+    // Wire up
+    $('checkBtn').onclick = () => checkAnswer();
+    $('skipBtn').onclick = () => { $('feedback').textContent = `➜ Skip. Correct answer: ${reverse? current.en:current.ja}`; stats.streak=0; stats.asked++; saveStats(); updateScore(); $('nextBtn').classList.remove('hidden'); };
+    $('nextBtn').onclick = pickQuestion; $('hintBtn').onclick = hint; $('resetBtn').onclick = resetStats;
+    $('multipleChoiceToggle').onchange = renderQuestion; $('reverseToggle').onchange = renderQuestion;
+    $('saveProfileBtn').onclick = ()=>{ profile.name=$('nameInput').value.trim(); profile.email=$('emailInput').value.trim(); saveProfile(); updateBelt(); setShareText(); alert('Profile saved!'); };
+    $('saveScoreBtn').onclick = saveHighscore;
+    $('copyShare').onclick = copyShare; $('nativeShare').onclick = nativeShare;
+
+    function hydrateProfile(){ $('nameInput').value = profile.name||''; $('emailInput').value = profile.email||''; }
+    function showTermImage(){ /* kept from your original if you add TERM_IMAGES */ }
+    function renderHighsInit(){ renderHighs(); }
+
+    // Init
+    hydrateProfile(); renderHighsInit(); updateScore(); pickQuestion();
+  </script>
+
+</body></html>
