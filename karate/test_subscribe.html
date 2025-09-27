@@ -1,32 +1,53 @@
 <!doctype html>
-<meta charset="utf-8">
-<title>Test Subscribe Flow</title>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>DojoFun – Test Subscribe Flow</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 2rem; background: #fff8ee; }
+    h1 { color: #ff8317; }
+    input { padding: .5rem; border: 1px solid #ccc; border-radius: 6px; width: 250px; }
+    button { margin-left: .5rem; padding: .5rem 1rem; background:#70b548; color:#fff; border:none; border-radius:6px; cursor:pointer; }
+    button:hover { background:#57aa48; }
+    pre { background:#f5f5f5; padding:1rem; border-radius:6px; margin-top:1rem; max-width:500px; overflow-x:auto; }
+  </style>
+</head>
+<body>
+  <h1>DojoFun – Test Subscribe Flow</h1>
 
-<input id="subEmail" type="email" placeholder="you@example.com">
-<button id="subBtn">Subscribe</button>
-<pre id="out"></pre>
+  <p>Enter an email to simulate starting a subscription:</p>
+  <input id="subEmail" type="email" placeholder="you@example.com">
+  <button id="subBtn">Subscribe</button>
 
-<script>
-const API = "https://api.dojofun.com"; // or your Netlify temp URL if domain not ready
+  <pre id="out"></pre>
 
-// Subscribe button click → call create-checkout
-document.getElementById('subBtn').onclick = async () => {
-  const email = document.getElementById('subEmail').value.trim();
-  if (!email) return alert("Enter your email first!");
+  <script>
+    const API = "https://api.dojofun.com"; // change to your Netlify temp URL if custom domain not ready
 
-  const res = await fetch(`${API}/api/create-checkout`, {
-    method: "POST",
-    headers: {"content-type":"application/json"},
-    body: JSON.stringify({ email })
-  });
-  const data = await res.json();
-  document.getElementById('out').textContent = JSON.stringify(data, null, 2);
+    document.getElementById('subBtn').onclick = async () => {
+      const email = document.getElementById('subEmail').value.trim();
+      if (!email) return alert("Enter your email first!");
 
-  if (data.url) {
-    // Save email locally so quizzes can check it later
-    localStorage.setItem('playerEmail', email);
-    // Redirect to Stripe Checkout
-    window.location.href = data.url;
-  }
-};
-</script>
+      try {
+        const res = await fetch(`${API}/api/create-checkout`, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ email })
+        });
+
+        const data = await res.json();
+        document.getElementById('out').textContent = JSON.stringify(data, null, 2);
+
+        if (data.url) {
+          // Save the email so premium quizzes can check it later
+          localStorage.setItem('playerEmail', email);
+          // Redirect to Stripe Checkout
+          window.location.href = data.url;
+        }
+      } catch (err) {
+        document.getElementById('out').textContent = "Error: " + err.message;
+      }
+    };
+  </script>
+</body>
+</html>
