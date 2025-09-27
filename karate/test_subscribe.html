@@ -1,0 +1,32 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Test Subscribe Flow</title>
+
+<input id="subEmail" type="email" placeholder="you@example.com">
+<button id="subBtn">Subscribe</button>
+<pre id="out"></pre>
+
+<script>
+const API = "https://api.dojofun.com"; // or your Netlify temp URL if domain not ready
+
+// Subscribe button click → call create-checkout
+document.getElementById('subBtn').onclick = async () => {
+  const email = document.getElementById('subEmail').value.trim();
+  if (!email) return alert("Enter your email first!");
+
+  const res = await fetch(`${API}/api/create-checkout`, {
+    method: "POST",
+    headers: {"content-type":"application/json"},
+    body: JSON.stringify({ email })
+  });
+  const data = await res.json();
+  document.getElementById('out').textContent = JSON.stringify(data, null, 2);
+
+  if (data.url) {
+    // Save email locally so quizzes can check it later
+    localStorage.setItem('playerEmail', email);
+    // Redirect to Stripe Checkout
+    window.location.href = data.url;
+  }
+};
+</script>
